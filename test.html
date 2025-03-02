@@ -1,0 +1,16 @@
+<div id="root"></div>
+
+<!-- Load React from an alternative CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+<script type="text/babel">
+// A simple React component
+function HelloWorld() {
+  return <h1>Hello, Jupyter! 🚀</h1>;
+}
+
+// Render the component into #root
+ReactDOM.render(<HelloWorld />, document.getElementById('root'));
+</script>

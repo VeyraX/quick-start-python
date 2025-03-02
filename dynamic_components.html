@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Dynamic Component Page</title>
+    <!-- Load React and ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Embed the component data safely as JSON -->
+    <script id="component-data" type="application/json">
+{components_json}
+    </script>
+    <script type="text/javascript">
+      // Retrieve and parse the component data
+      const components = JSON.parse(document.getElementById('component-data').textContent);
+      
+      // Function to create a dynamic component from its specification.
+      // It uses new Function to evaluate the provided JSX code and then returns the component function.
+      function createComponent(comp) {
+        try {
+          const factory = new Function('React', 'props', `
+            ${comp.jsx}
+            return ${comp.name};
+          `);
+          return factory(React, comp.props);
+        } catch (error) {
+          console.error('Error creating component:', error);
+          return function() {
+            return React.createElement('div', null, 'Error rendering component');
+          };
+        }
+      }
+      
+      // For this example, assume there is only one component in the list.
+      const comp = components;
+      const DynamicComponent = createComponent(comp);
+      
+      // Render the dynamic component into the #root element.
+      ReactDOM.render(
+        React.createElement(DynamicComponent, comp.props),
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>
